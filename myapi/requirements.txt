@@ -1,0 +1,4 @@
+requests
+fastapi[all]
+mangum
+uvicorn

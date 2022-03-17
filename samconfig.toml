@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "fastapi"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1adh0qeak53tc"
+s3_prefix = "fastapi"
+region = "eu-west-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
+disable_rollback = true

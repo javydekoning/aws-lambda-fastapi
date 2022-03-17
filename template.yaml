@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  fastapi
+
+  Sample SAM Template for fastapi
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 60
+
+# Notes https://www.youtube.com/watch?v=6fE31084Uks
+Resources:
+  MyApi:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: myapi/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      MemorySize: 512
+      Architectures:
+        - x86_64
+      AutoPublishAlias: "live"
+      ProvisionedConcurrencyConfig:
+        ProvisionedConcurrentExecutions: 5
+      Events:
+        MyApi:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /{proxy+}
+            Method: get
+
+Outputs:
+  MyApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
+  MyApiFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt MyApi.Arn
+  MyApiIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt MyApiRole.Arn
